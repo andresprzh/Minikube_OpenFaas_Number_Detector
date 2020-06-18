@@ -1,18 +1,47 @@
-import numpy as np
 from sklearn import datasets, svm, metrics
-
 import tensorflow as tf
 import tensorflow.keras as kr
+from PIL import Image
+import numpy as np
+import base64
 
+import os
 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 def handle(req):
     """handle a request to the function
     Args:
         req (str): request body
     """
+    if req=='train\n':
+        train()
+        print('Modelo entrenado')
+    else:
+        
+        binary = os.fsencode(req)
+        # print(binary)
 
-    return req
+        image_64_decode = base64.decodebytes(binary) 
+
+        result_file = 'image'
+        with open(result_file, 'wb') as file_handler:
+            file_handler.write(image_64_decode)
+
+        Image.open(result_file).save(result_file + '.png', 'PNG')
+        os.remove(result_file)
+
+        image = Image.open(result_file + '.png')
+        
+        image = np.asarray(image)
+        input_image=np.array([np.reshape(image,np.prod(image.shape)),])
+
+        res = get_number(input_image)
+
+        print('La imagen tiene el numero: ',res)
+    pass
+    
 
 def train():
     digits = datasets.load_digits()
@@ -53,16 +82,21 @@ def train():
     model.compile(loss='mse', optimizer='adam', metrics=['acc'])
 
     # Y entrenamos al modelo. Los callbacks 
-    model.fit(X, Y, epochs=100)
+    model.fit(X, Y, epochs=100, verbose=0)
 
     model.save('num_detector.model')
 
-def get_number():
+def get_number(input_image):
     # carga modelo
     try:
         model = tf.keras.models.load_model('num_detector.model')
     except :
         train()
+        print('Modelo entrenado')
         model = tf.keras.models.load_model('num_detector.model')
+
+    Yr = model.predict(input_image)
+    res = np.argmax(Yr[0])
+
+    return res    
     
-    pass

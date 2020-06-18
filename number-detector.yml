@@ -1,10 +1,12 @@
 version: 1.0
 provider:
   name: openfaas
-  gateway: http://172.17.0.2:31112
+  gateway: http://172.17.0.3:31112
 functions:
   number-detector:
-    lang: python
+    lang: python3-debian
     handler: ./number-detector
     image: andresprzh/number-detector:latest
-
+build_options:
+    - debug
+    - dev
