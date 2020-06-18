@@ -1,0 +1,10 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://172.17.0.2:31112
+functions:
+  number-detector:
+    lang: python
+    handler: ./number-detector
+    image: andresprzh/number-detector:latest
+
