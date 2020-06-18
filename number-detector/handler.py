@@ -21,7 +21,7 @@ def handle(req):
     else:
         
         binary = os.fsencode(req)
-        # print(binary)
+        
 
         image_64_decode = base64.decodebytes(binary) 
 

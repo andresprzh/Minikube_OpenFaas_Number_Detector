@@ -7,6 +7,3 @@ functions:
     lang: python3-debian
     handler: ./number-detector
     image: andresprzh/number-detector:latest
-build_options:
-    - debug
-    - dev
