@@ -329,8 +329,9 @@ done
 Para enviar imágenes es necesario codificar las imágenes en base 64 y enviarlas a la función con el comando `base64 image.png`
 
 ```
-echo "`base64 example-images/4.png`" | faas-cli invoke number-detector
+echo "`base64 example-images/1.png`" | faas-cli invoke number-detector
 ```
+<img src="example-images/1.png" alt="drawing" width="100"/>
 
 ![](img/ExecutionExample.png)
 
