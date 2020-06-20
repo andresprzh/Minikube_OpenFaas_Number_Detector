@@ -26,7 +26,7 @@ echo "`base64 example-images/4.png`" | faas-cli invoke number-detector
 
 Ejemplo en asccinema del funcionamiento de la funcion 
 
-[**Ejemplo de ejecucion**](https://asciinema.org/a/XFdHdspKVjjAiMFMdFWCeoLBx)
+[**Ejemplo de ejecucion**](https://asciinema.org/a/Quia3CsbShck8CM83Of7Q05or)
 
 ---
 ## Prerrequisitos
@@ -175,7 +175,6 @@ Si hay acceso a al cluster por Faas'cli dberia de mostrar el siguiente mensaje
 
 ```
 kubectl get pods -n openfaas
-faas-cli list
 ```
 ![](img/validate1.png)
 
@@ -237,10 +236,16 @@ docker pull jhonnyc2320/inletsjhonny
 
 
 
-Tras configurar inlets se puede acceder al cluster por meio de la ip publica
+Tras configurar inlets se puede acceder al cluster por medio de la ip publica
 
 ```
 echo -n 42099d59d6d060d5934854561a433ee1b4cc25b8 | faas-cli login -g 'http://165.22.127.169:80' -u admin --password-stdin
+```
+
+las funciones se pueden ver con el comando
+
+```
+faas-cli list -g 'http://165.22.127.169:80'
 ```
 ---
 ## Automatización instalación
@@ -423,9 +428,17 @@ return res
 ## Construye, publica y despliega funcion
 ```
 for i in build push deploy ; do
-    faas-cli ${i} -f ./number-detector.yml
+    faas-cli ${i} -f ./number-detector.yml -g 'http://165.22.127.169:80'
 done
 ```
+
+**Nota:** Al usarse librerías como keras la imagen pesa mas de 2 Gb por lo cual el build y push pueden tomar varias horas.
+
+Ver si se deplego la funcion
+
+![](img/functionserver.png)
+
+
 ---
 ## Ejecutar funcion
 
