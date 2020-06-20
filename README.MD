@@ -184,7 +184,50 @@ faas-cli list
 
 ## Configuracion de inlets
 
-Descarga imagen creada de docker
+En primera medida se utilizo Digital ocean y se creo el token necesario para entrar, este se encuentra en el dockerfile.
+
+```
+curl -sLSf https://inletsctl.inlets.dev | sudo sh
+
+inletsctl download
+```
+
+Con las siguientes instrucciones se crea el servidor de salida donde se especifica el digital ocean, region y el token que se anteriormente.
+
+```
+inletsctl create \
+ --provider digitalocean \
+ --region lon1 \
+ --access-token-file $HOME/inlets-cloud-api
+```
+
+Una vez creado el servidor de salida tendriamos que ver la siguiente salida para confirmar que todo quedo listo y se vera la ip del servidor y el token
+
+```
+IP: 192.168.0.11:80
+Auth-token: gZM13NsvmcahE7agc3j4jJQpQCPO9hlQM8HapkNnJagjUby1UDpKFd8sObVC0fhl
+```
+
+Para crear el inlet hacemos lo siguiente
+
+```
+export UPSTREAM=http://127.0.0.1:8080
+   inlets client --remote "ws://167.71.142.34:8080" \
+ --token "gZM13NsvmcahE7agc3j4jJQpQCPO9hlQM8HapkNnJagjUby1UDpKFd8sObVC0fhl" \
+ --upstream $UPSTREAM
+```
+UPSTREAM es una variable donde se guarda la ip del servidor loca o anfitrion.
+
+
+El contenedor se ejecuta con el siguiente comando
+
+```
+docker run -d -it -e UPSTREAM=$OPENFAAS_URL f6995a19aa99
+```
+![](img/dcokerinletsexec.png)
+
+
+El contenedor se puede descargar de `jhonnyc2320/inletsjhonny`
 
 ```
 docker pull jhonnyc2320/inletsjhonny
@@ -192,12 +235,7 @@ docker pull jhonnyc2320/inletsjhonny
 
 ![](img/inletdockerdownload.png)
 
-Ejecutar contenedor a partir de la imagen
 
-```
-docker run -d -it -e UPSTREAM=$OPENFAAS_URL f6995a19aa99
-```
-![](img/dcokerinletsexec.png)
 
 Tras configurar inlets se puede acceder al cluster por meio de la ip publica
 
