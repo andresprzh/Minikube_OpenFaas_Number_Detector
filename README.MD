@@ -451,4 +451,4 @@ echo "`base64 example-images/1.png`" | faas-cli invoke number-detector
 
 ![](img/ExecutionExample.png)
 
-[**Ejemplo de ejecucion**](https://asciinema.org/a/XFdHdspKVjjAiMFMdFWCeoLBx)
+[**Ejemplo de ejecucion**](https://asciinema.org/a/Quia3CsbShck8CM83Of7Q05or)
