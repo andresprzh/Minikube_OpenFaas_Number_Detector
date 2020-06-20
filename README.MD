@@ -15,7 +15,7 @@ IP publica: http://165.22.127.169/ui/
 Logearse con la siguiente instrucción:
 
 ```
-echo -n 9b4fa20ae72fc1fd98e4decad055d8ef7d15c3a8 | faas-cli login -g 'http://165.22.127.169:80' -u admin --password-stdin
+echo -n 42099d59d6d060d5934854561a433ee1b4cc25b8 | faas-cli login -g 'http://165.22.127.169:80' -u admin --password-stdin
 ```
 
 Ejemplo de ejecucion de la función:
@@ -64,9 +64,17 @@ chmod 700 get_helm.sh && \
 
 Como primer paso del proyecto se creo un cluster usando minikube y el gestor de paquetes helm para la instalación de openfaas en el siguiente enlace se puede observar un vídeo en asccinema de la instalación y configuración del cluster.
 
-* [**ENLACE A VÍDEO EN ASCIINEMA**](https://asciinema.org/a/as4wKH16BBx4yduPeV6uasI7K)
+* [**Creacion cluster con docker**](https://asciinema.org/a/as4wKH16BBx4yduPeV6uasI7K)
+* [**Creacion cluster con virtualbox**](https://asciinema.org/a/dppwXv4jonL2sLKfH4cPJLxDo)
+
 
 ### Iniciar cluster con kubernets
+
+**Nota: configurar virtualbox como driver inicial** 
+
+```
+minikube config set driver virtualbox
+```
 
 Como paso inicial se crea cluster de minikube con la siguiente instruccion.
 
@@ -191,6 +199,63 @@ docker run -d -it -e UPSTREAM=$OPENFAAS_URL f6995a19aa99
 ```
 ![](img/dcokerinletsexec.png)
 
+Tras configurar inlets se puede acceder al cluster por meio de la ip publica
+
+```
+echo -n 42099d59d6d060d5934854561a433ee1b4cc25b8 | faas-cli login -g 'http://165.22.127.169:80' -u admin --password-stdin
+```
+---
+## Automatización instalación
+
+El script [minikube-install.sh](minikube-install.sh) permite hacer la instalación del cluster y la configuración a inlets automáticamente, dicho script entrega al final la contraseña usada.
+
+```
+😄  minikube v1.11.0 en Debian 10.4
+✨  Automatically selected the docker driver
+👍  Starting control plane node minikube in cluster minikube
+🔥  Creating docker container (CPUs=2, Memory=4000MB) ...
+🐳  Preparando Kubernetes v1.18.3 en Docker 19.03.2...
+    ▪ kubeadm.pod-network-cidr=10.244.0.0/16
+🔎  Verifying Kubernetes components...
+🌟  Enabled addons: default-storageclass, storage-provisioner
+🏄  Done! kubectl is now configured to use "minikube"
+serviceaccount/tiller created
+clusterrolebinding.rbac.authorization.k8s.io/tiller created
+namespace/openfaas created
+namespace/openfaas-fn created
+"openfaas" has been added to your repositories
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "openfaas" chart repository
+Update Complete. ⎈ Happy Helming!⎈ 
+secret/basic-auth created
+Release "openfaas" does not exist. Installing it now.
+NAME: openfaas
+LAST DEPLOYED: Sat Jun 20 12:24:04 2020
+NAMESPACE: openfaas
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+To verify that openfaas has started, run:
+
+  kubectl -n openfaas get deployments -l "release=openfaas, app=openfaas"
+Using default tag: latest
+latest: Pulling from jhonnyc2320/inletsjhonny
+Digest: sha256:f924795f774272ea1ea5ad35fb7c3adbcee82fad2db32219fb130f01fee9883d
+Status: Image is up to date for jhonnyc2320/inletsjhonny:latest
+docker.io/jhonnyc2320/inletsjhonny:latest
+534e08d44d66d5ec893797ad989ecef978e3b497475784b379d16f391032d74f
+PASSWORD
+42099d59d6d060d5934854561a433ee1b4cc25b8
+```
+
+Tras ejecutar el script se puede conectar al cluster por la ip publica con el siguiente comando:
+
+
+```
+echo -n 42099d59d6d060d5934854561a433ee1b4cc25b8 | faas-cli login -g 'http://165.22.127.169:80' -u admin --password-stdin
+```
+
 ---
 ## Crea funcion 
 
@@ -240,7 +305,7 @@ Y=np.vstack(Y
 ```
 ### Red neuronal
 
-Con queras se creo una red neuronal sencilla con una topología [64,16,32,16,10], con una medida de error se error cuadrático medio y usando el algoritmo Adam para la retropropagación.
+Con keras se creo una red neuronal sencilla con una topología [64,16,32,16,10], con una medida de error se error cuadrático medio y usando el algoritmo Adam para la retropropagación.
 
 ```
 topology=[n,16,32,16,10]
