@@ -227,7 +227,7 @@ docker run -d -it -e UPSTREAM=$OPENFAAS_URL f6995a19aa99
 ![](img/dcokerinletsexec.png)
 
 
-El contenedor se puede descargar de `jhonnyc2320/inletsjhonny`
+La imagen del contenedor se puede descargar de `jhonnyc2320/inletsjhonny`
 
 ```
 docker pull jhonnyc2320/inletsjhonny
