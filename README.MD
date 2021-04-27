@@ -1,5 +1,4 @@
-# Trabajo Final sistemas distribuidos
-
+# Minikube OpenFaas Number Detector
 ## Presentado por:
 
 * **Jaime Andrés Pérez Hinestroza: 201903028**
