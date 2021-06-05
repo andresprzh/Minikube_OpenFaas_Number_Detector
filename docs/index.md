@@ -1,13 +1,7 @@
-# Minikube OpenFaas Number Detector
-## Presentado por:
-
-* **Jaime Andrés Pérez Hinestroza: 201903028**
-* **Jhonny Cardenas Velasco: 201903306**
-
 Proyecto de despliegue de programa FAAS (Funtion as a service) para la clasificación de números escritos a mano en imágenes de tamaño 8x8 usando las librerias Keras y TensorFlow en el lenguaje python.
 El proyecto se desplegó en un kluster local con minikube y la función fue creada y desplegada usando Openfaas, para visualizar la función se uso Inlets y Digital, la estructura del proyecto se puede ver en la siguiente imagen.
 
-![](img/architecture.png)
+![](../img/architecture.png)
 
 IP publica: http://165.22.127.169/ui/
 
@@ -82,7 +76,7 @@ minikube start
 ```
 Se deberia de ver un resultado similar al siguiente:
 
-![](img/createdCluster.png)
+![](../img/createdCluster.png)
 
 ### Crear service account de Helm 
 
@@ -95,7 +89,7 @@ kubectl -n kube-system create sa tiller && kubectl create clusterrolebinding til
 
 Se deberia de ver un resultado similar al siguiente:
 
-![](img/heluser.png)
+![](../img/heluser.png)
 
 ### Crear namespaces 
 
@@ -105,14 +99,14 @@ Se crea los namespaces para los componentes núcleos de Openfaas y las funciones
 ```
 kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
 ```
-![](img/namespaces.png)
+![](../img/namespaces.png)
 
 ### Añadir openfaas al repositorio de helm
 
 ```
 helm repo add openfaas https://openfaas.github.io/faas-netes/
 ```
-![](img/addopenfaas.png)
+![](../img/addopenfaas.png)
 
 ### Actualiza charts de helm
 
@@ -122,7 +116,7 @@ Helm usa un formato de paquetes denominado charts, que describen los set de recu
 helm repo update
 ```
 
-![](img/updatecharts.png)
+![](../img/updatecharts.png)
 
 ### Genera contraseña valida para cliente openfaas,
 
@@ -145,7 +139,7 @@ helm upgrade openfaas --install openfaas/openfaas --namespace openfaas --set fun
 
 Si la instalación se hace de manera correcta debería aparecer un mensaje similar al siguiente
 
-![](img/openfaasinstall.png)
+![](../img/openfaasinstall.png)
 
 ### Asigna url a openfaas
 
@@ -168,14 +162,14 @@ echo -n $PASSWORD | faas-cli login -u admin --password-stdin
 
 Si hay acceso a al cluster por Faas'cli dberia de mostrar el siguiente mensaje
 
-![](img/LogedOpenfaas.png)
+![](../img/LogedOpenfaas.png)
 
 ### Se valida la instalación
 
 ```
 kubectl get pods -n openfaas
 ```
-![](img/validate1.png)
+![](../img/validate1.png)
 
 
 ---
@@ -222,7 +216,7 @@ El contenedor se ejecuta con el siguiente comando
 ```
 docker run -d -it -e UPSTREAM=$OPENFAAS_URL f6995a19aa99
 ```
-![](img/dcokerinletsexec.png)
+![](../img/dcokerinletsexec.png)
 
 
 La imagen del contenedor se puede descargar de `jhonnyc2320/inletsjhonny`
@@ -231,7 +225,7 @@ La imagen del contenedor se puede descargar de `jhonnyc2320/inletsjhonny`
 docker pull jhonnyc2320/inletsjhonny
 ```
 
-![](img/inletdockerdownload.png)
+![](../img/inletdockerdownload.png)
 
 
 
@@ -435,7 +429,7 @@ done
 
 Ver si se deplego la funcion
 
-![](img/functionserver.png)
+![](../img/functionserver.png)
 
 
 ---
@@ -446,8 +440,8 @@ Para enviar imágenes es necesario codificar las imágenes en base 64 y enviarla
 ```
 echo "`base64 example-images/1.png`" | faas-cli invoke number-detector
 ```
-<img src="example-images/1.png" alt="drawing" width="100"/>
+<img src="../example-images/1.png" alt="drawing" width="100"/>
 
-![](img/ExecutionExample.png)
+![](../img/ExecutionExample.png)
 
 [**Ejemplo de ejecucion**](https://asciinema.org/a/Quia3CsbShck8CM83Of7Q05or)
